@@ -1,0 +1,30 @@
+---
+title: '轻量内容站 · 技术博客与作品归档'
+description: '用 Astro 构建的极简博客与作品归档站，零数据库、纯静态部署，加载极快。'
+tags: ['Astro', 'MDX', 'Tailwind CSS', 'EdgeOne Pages']
+role: '独立开发'
+period: '2024.10 – 至今'
+link: 'https://example.com'
+featured: true
+order: 2
+---
+
+## 背景
+
+需要一个能同时承载「技术文章」与「项目归档」的个人站点，要求维护成本低、加载快、SEO 友好。传统 CMS 太重，WordPress 需要维护服务器与数据库。
+
+## 挑战
+
+- 内容以 Markdown 维护，又要保证类型安全与结构统一。
+- 移动端优先，360px 起无横向滚动。
+- 静态部署到国内可快速访问的托管平台。
+
+## 方案
+
+选用 Astro 静态生成 + Content Collections 管理 Markdown/MDX 内容，Tailwind CSS 做响应式样式，部署到腾讯云 EdgeOne Pages。新增文章只需新增一个 Markdown 文件即可。
+
+## 成果
+
+- 站点 Lighthouse 移动端性能与无障碍均达到 90 分以上。
+- 国内访问速度稳定，构建与发布全自动。
+- 新增一篇文章从写作到上线不超过 10 分钟。

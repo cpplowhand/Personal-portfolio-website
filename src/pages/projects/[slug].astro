@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { ArrowLeft, ExternalLink } from 'lucide-astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((p) => ({
+    params: { slug: p.id },
+    props: { p },
+  }));
+}
+
+const { p } = Astro.props;
+const { Content } = await render(p);
+---
+
+<BaseLayout
+  title={`${p.data.title} — 案例研究`}
+  description={p.data.description}
+  type="article"
+>
+  <article class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
+    <a
+      href="/projects"
+      class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 transition hover:text-gray-900"
+    >
+      <ArrowLeft class="h-4 w-4" /> 返回项目列表
+    </a>
+
+    <header class="mt-8">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        {p.data.title}
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-gray-600">{p.data.description}</p>
+
+      <ul class="mt-5 flex flex-wrap gap-2">
+        {p.data.tags.map((tag: string) => (
+          <li class="rounded-md bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600">
+            {tag}
+          </li>
+        ))}
+      </ul>
+
+      <dl class="mt-6 grid gap-4 border-t border-gray-100 pt-6 text-sm sm:grid-cols-3">
+        {p.data.role && (
+          <div>
+            <dt class="font-medium text-gray-500">角色</dt>
+            <dd class="mt-1 text-gray-900">{p.data.role}</dd>
+          </div>
+        )}
+        {p.data.period && (
+          <div>
+            <dt class="font-medium text-gray-500">时间</dt>
+            <dd class="mt-1 text-gray-900">{p.data.period}</dd>
+          </div>
+        )}
+        {p.data.link && (
+          <div>
+            <dt class="font-medium text-gray-500">链接</dt>
+            <dd class="mt-1">
+              <a
+                href={p.data.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 text-indigo-600 transition hover:text-indigo-700"
+              >
+                访问项目 <ExternalLink class="h-4 w-4" />
+              </a>
+            </dd>
+          </div>
+        )}
+      </dl>
+    </header>
+
+    {p.data.cover && (
+      <img
+        src={p.data.cover}
+        alt={`${p.data.title} 封面`}
+        class="mt-10 aspect-video w-full rounded-2xl border border-gray-200 object-cover"
+      />
+    )}
+
+    <div class="prose prose-gray mt-10 max-w-none">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

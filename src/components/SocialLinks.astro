@@ -1,0 +1,28 @@
+---
+import { site } from '../data/site';
+import { Github, Globe, Linkedin } from 'lucide-astro';
+
+const iconMap: Record<string, any> = {
+  GitHub: Github,
+  LinkedIn: Linkedin,
+};
+
+const socials = site.socials.map((s) => ({
+  ...s,
+  Icon: iconMap[s.label] ?? Globe,
+}));
+---
+
+<div class="flex items-center gap-2">
+  {socials.map(({ label, href, Icon }) => (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900"
+      aria-label={label}
+    >
+      <Icon class="h-5 w-5" />
+    </a>
+  ))}
+</div>

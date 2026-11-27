@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../../data/site';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.order - a.data.order
+);
+---
+
+<BaseLayout
+  title={`项目 — ${site.name}`}
+  description="精选项目与案例研究，展示从背景、挑战到方案与成果的完整过程。"
+>
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">项目 / 案例研究</h1>
+    <p class="mt-3 max-w-2xl text-gray-600">
+      重质不重量：每个项目都按「背景 → 挑战 → 方案 → 成果」的结构展开，而非简单的截图堆砌。
+    </p>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((p) => (
+        <ProjectCard
+          title={p.data.title}
+          description={p.data.description}
+          tags={p.data.tags}
+          cover={p.data.cover}
+          link={p.data.link}
+          href={`/projects/${p.id}/`}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

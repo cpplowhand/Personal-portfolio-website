@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkillSection from '../components/SkillSection.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { site } from '../data/site';
+import { Download, MapPin } from 'lucide-astro';
+---
+
+<BaseLayout
+  title={`关于我 — ${site.name}`}
+  description={`了解 ${site.name} 的背景、方向与技能栈。`}
+>
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">关于我</h1>
+
+    <div class="mt-10 grid gap-10 lg:grid-cols-[1fr_320px]">
+      <div class="space-y-4 text-base leading-relaxed text-gray-600">
+        <p>你好，我是{site.name}，一名{site.role}。{site.tagline}</p>
+        <p>
+          我拥有多年开发经验，参与过从 0 到 1 的产品搭建，也负责过系统的性能优化与重构。我更看重「把问题讲清楚」——这也是本站用案例研究而非截图堆砌来展示项目的原因。
+        </p>
+        <p>工作之外，我喜欢写技术笔记、参与开源，以及研究让开发体验更好的工具链。</p>
+      </div>
+
+      <aside class="space-y-6 rounded-2xl border border-gray-200 bg-gray-50 p-6">
+        <div>
+          <h2 class="text-sm font-medium uppercase tracking-wide text-gray-500">位置</h2>
+          <p class="mt-2 flex items-center gap-2 text-gray-800">
+            <MapPin class="h-4 w-4 text-indigo-600" /> {site.location}
+          </p>
+        </div>
+        <div>
+          <h2 class="text-sm font-medium uppercase tracking-wide text-gray-500">社交</h2>
+          <div class="mt-2">
+            <SocialLinks />
+          </div>
+        </div>
+        <a
+          href={site.resume}
+          class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:border-gray-400 hover:bg-gray-100"
+        >
+          <Download class="h-4 w-4" /> 下载简历
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <SkillSection />
+</BaseLayout>

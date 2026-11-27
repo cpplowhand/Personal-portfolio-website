@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SkillSection from '../components/SkillSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../data/site';
+import { ArrowRight, Mail } from 'lucide-astro';
+
+const projects = (await getCollection('projects'))
+  .filter((p) => p.data.featured)
+  .sort((a, b) => b.data.order - a.data.order)
+  .slice(0, 3);
+---
+
+<BaseLayout>
+  <!-- Hero 首屏 -->
+  <section class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+    <p class="text-sm font-medium uppercase tracking-widest text-indigo-600">{site.role}</p>
+    <h1 class="mt-4 max-w-2xl text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+      {site.headline}
+    </h1>
+    <p class="mt-5 max-w-xl text-lg leading-relaxed text-gray-600">{site.tagline}</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-6 py-3 text-base font-medium text-white transition hover:bg-indigo-700"
+      >
+        查看项目 <ArrowRight class="h-5 w-5" />
+      </a>
+      <a
+        href="/#contact"
+        class="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-6 py-3 text-base font-medium text-gray-700 transition hover:border-gray-400 hover:bg-gray-50"
+      >
+        <Mail class="h-5 w-5" /> 联系我
+      </a>
+    </div>
+  </section>
+
+  <!-- 关于我（简介） -->
+  <section id="about" class="border-t border-gray-100 bg-gray-50">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+      <div class="max-w-2xl">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">关于我</h2>
+        <p class="mt-5 text-lg leading-relaxed text-gray-600">{site.tagline}</p>
+        <p class="mt-4 text-base leading-relaxed text-gray-600">
+          我是一名{site.role}，关注性能、可维护性与用户体验。相比截图堆砌，我更倾向用「背景 → 挑战 →
+          方案 → 成果」的案例研究，把每个项目讲清楚。
+        </p>
+        <a
+          href="/about"
+          class="mt-6 inline-flex items-center gap-2 font-medium text-indigo-600 transition hover:text-indigo-700"
+        >
+          了解更多 <ArrowRight class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 精选项目 -->
+  <section id="projects" class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <div class="flex items-end justify-between gap-4">
+      <div>
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">精选项目</h2>
+        <p class="mt-3 text-gray-600">重质不重量，每个项目都是一次完整的案例研究。</p>
+      </div>
+      <a
+        href="/projects"
+        class="hidden items-center gap-1 text-sm font-medium text-indigo-600 transition hover:text-indigo-700 sm:inline-flex"
+      >
+        全部项目 <ArrowRight class="h-4 w-4" />
+      </a>
+    </div>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((p) => (
+        <ProjectCard
+          title={p.data.title}
+          description={p.data.description}
+          tags={p.data.tags}
+          cover={p.data.cover}
+          link={p.data.link}
+          href={`/projects/${p.id}/`}
+        />
+      ))}
+    </div>
+  </section>
+
+  <SkillSection />
+  <ContactSection />
+</BaseLayout>
